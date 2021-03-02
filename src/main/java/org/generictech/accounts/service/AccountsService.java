@@ -121,10 +121,10 @@ public class AccountsService {
 	public Accounts update(Accounts accountData, SystemUserDTO user) throws NoSuchElementException, AccountNotFoundException, TypeNotFoundException, UnauthorizedAccessException {
 		Optional<Accounts> account = accountsRepo.findById(accountData.getId());
 		if (account.isPresent()) {
+			if (account.get().getUserId() != user.getId()) {
+				throw new UnauthorizedAccessException();
+			}
 			if (accountData.getType() != null) {
-				if (account.get().getUserId() != user.getId()) {
-					throw new UnauthorizedAccessException();
-				}
 				Optional<AccountType> type = accountTypeRepo.findById(accountData.getType().getId());
 				
 				if (type.isPresent()) {
@@ -157,7 +157,7 @@ public class AccountsService {
 	public boolean delete(int id, SystemUserDTO user) throws AccountNotFoundException, UnauthorizedAccessException {
 		Optional<Accounts> account = accountsRepo.findById(id);
 		if (account.isPresent()) {
-			if (account.get().getUserId() == user.getId()) {
+			if (account.get().getUserId() != user.getId()) {
 				throw new UnauthorizedAccessException();
 			}
 			accountsRepo.delete(account.get());

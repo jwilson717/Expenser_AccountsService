@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import org.generictech.accounts.exception.BadValueException;
+import org.generictech.accounts.exception.ProcessingException;
 import org.generictech.accounts.exception.TypeNotFoundException;
 import org.generictech.accounts.model.AccountType;
 import org.generictech.accounts.repo.AccountTypeRepo;
@@ -50,8 +52,13 @@ public class AccountTypeService {
 	 * @param type
 	 * @return {@link AccountType}
 	 * @throws NoSuchElementException
+	 * @throws ProcessingException 
+	 * @throws BadValueException 
 	 */
-	public AccountType save(AccountType type) throws NoSuchElementException {
+	public AccountType save(AccountType type) throws NoSuchElementException, BadValueException {
+		if (type.getType() == null || type.getType().isEmpty()) {
+			throw new BadValueException("Non-empty type value required");
+		}
 		return accountTypeRepo.save(type);
 	}
 	

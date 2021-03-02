@@ -13,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
+import org.generictech.accounts.exception.BadValueException;
 import org.generictech.accounts.exception.TypeNotFoundException;
 import org.generictech.accounts.model.AccountType;
 import org.generictech.accounts.service.AccountTypeService;
@@ -126,6 +127,23 @@ public class AccountTypeControllerTests {
 		doReturn(type).when(accountTypeService).save(any(AccountType.class));
 		mockMvc.perform(post("/account/type"))
 			.andExpect(status().isBadRequest());
+	}
+	
+	/**
+	 * Method to test proper return for a badValueException.
+	 * @throws JsonProcessingException
+	 * @throws Exception
+	 */
+	@Test
+	public void postAccountEmptyTypeTest() throws JsonProcessingException, Exception {
+		AccountType newType = new AccountType();
+		newType.setType("");
+		doThrow(BadValueException.class).when(accountTypeService).save(any(AccountType.class));
+		mockMvc.perform(post("/account/type").contentType(MediaType.APPLICATION_JSON)
+				.content(om.writeValueAsString(newType))
+				.accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isBadRequest())
+			.andExpect(MockMvcResultMatchers.content().string(containsString("BadValueException")));
 	}
 	
 	/**

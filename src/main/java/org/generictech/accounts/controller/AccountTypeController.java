@@ -3,6 +3,7 @@ package org.generictech.accounts.controller;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.generictech.accounts.exception.BadValueException;
 import org.generictech.accounts.exception.TypeNotFoundException;
 import org.generictech.accounts.model.AccountType;
 import org.generictech.accounts.service.AccountTypeService;
@@ -55,9 +56,11 @@ public class AccountTypeController {
 	 * Method to handle POST requests to /account/type. This method will add a new type record to the database. 
 	 * @param type AccountType
 	 * @return ResponseEntity<AccountType>
+	 * @throws NoSuchElementException 
+	 * @throws BadValueException 
 	 */
 	@PostMapping("")
-	public ResponseEntity<AccountType> save(@RequestBody AccountType type) {
+	public ResponseEntity<AccountType> save(@RequestBody AccountType type) throws NoSuchElementException, BadValueException {
 		return new ResponseEntity<AccountType>(accountTypeService.save(type), HttpStatus.CREATED);
 	}
 	

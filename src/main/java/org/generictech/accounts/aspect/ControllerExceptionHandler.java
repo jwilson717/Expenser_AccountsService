@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.NoSuchElementException;
 
 import org.generictech.accounts.exception.AccountNotFoundException;
+import org.generictech.accounts.exception.BadValueException;
 import org.generictech.accounts.exception.ExceptionResponse;
 import org.generictech.accounts.exception.ProcessingException;
 import org.generictech.accounts.exception.ProcessingRuntimeException;
@@ -65,5 +66,18 @@ public class ControllerExceptionHandler {
 		log.error(e.getMessage());
 		return new ResponseEntity<ExceptionResponse>(new ExceptionResponse(new Date(), 401, e.getClass().getSimpleName()
 				, e.getMessage()), HttpStatus.UNAUTHORIZED);
+	}
+	
+	/**
+	 * Method to handle badValue exceptions
+	 * @param web
+	 * @param e
+	 * @return ResponseEntity<ExceptionResponse>
+	 */
+	@ExceptionHandler(BadValueException.class)
+	public ResponseEntity<ExceptionResponse> badValueExceptions(WebRequest web, Exception e) {
+		log.error(e.getMessage());
+		return new ResponseEntity<ExceptionResponse>(new ExceptionResponse(new Date(), 400, e.getClass().getSimpleName()
+				, e.getMessage()), HttpStatus.BAD_REQUEST);
 	}
 }
