@@ -182,7 +182,7 @@ public class AccountsService {
 		try {
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
-			request = new HttpEntity<String>(om.writeValueAsString(token), headers);
+			request = new HttpEntity<>(om.writeValueAsString(token), headers);
 			String url = discoveryClient.getInstances("user-auth-service").get(0).getUri().toString();
 			user = restTemplate.postForObject(url + "/validate", request, SystemUserDTO.class);
 		} catch (JsonProcessingException e) {

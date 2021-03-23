@@ -41,6 +41,8 @@ public class AccountsController {
 	@Autowired
 	private HttpServletRequest req;
 	
+	private static final String TOKEN = "tokenId";
+	
 	/**
 	 * Method to handle GET requests to /account endpoint.
 	 * @return List<Accounts> 
@@ -51,7 +53,7 @@ public class AccountsController {
 	 */
 	@GetMapping("")
 	public ResponseEntity<List<Accounts>> getAll() throws ProcessingRuntimeException, UserNotFoundException, ProcessingException, AccountNotFoundException {
-		SystemUserDTO user = accountsService.getUser(req.getHeader("tokenId"));
+		SystemUserDTO user = accountsService.getUser(req.getHeader(TOKEN));
 		return new ResponseEntity<>(accountsService.findByUserId(user.getId()), HttpStatus.OK);
 	}
 	
@@ -67,7 +69,7 @@ public class AccountsController {
 	 */
 	@GetMapping("/id/{id}")
 	public ResponseEntity<Accounts> getById(@PathVariable int id) throws AccountNotFoundException, ProcessingRuntimeException, UserNotFoundException, ProcessingException, UnauthorizedAccessException {
-		SystemUserDTO user = accountsService.getUser(req.getHeader("tokenId"));
+		SystemUserDTO user = accountsService.getUser(req.getHeader(TOKEN));
 		return new ResponseEntity<>(accountsService.findById(id, user), HttpStatus.OK);			
 	}
 	
@@ -83,7 +85,7 @@ public class AccountsController {
 	@PostMapping("")
 	public ResponseEntity<Accounts> save(@RequestBody Accounts account) throws TypeNotFoundException, ProcessingRuntimeException
 		, UserNotFoundException, ProcessingException {
-		SystemUserDTO user = accountsService.getUser(req.getHeader("tokenId"));
+		SystemUserDTO user = accountsService.getUser(req.getHeader(TOKEN));
 		account.setUserId(user.getId());
 		return ResponseEntity.status(HttpStatus.CREATED).body(accountsService.save(account));			
 	}
@@ -105,7 +107,7 @@ public class AccountsController {
 	public ResponseEntity<Accounts> update(@PathVariable int id, @RequestBody Accounts accountData) throws NoSuchElementException, AccountNotFoundException
 		, TypeNotFoundException, ProcessingRuntimeException, UserNotFoundException, ProcessingException, UnauthorizedAccessException {
 		accountData.setId(id);
-		SystemUserDTO user = accountsService.getUser(req.getHeader("tokenId"));
+		SystemUserDTO user = accountsService.getUser(req.getHeader(TOKEN));
 		return new ResponseEntity<>(accountsService.update(accountData, user), HttpStatus.OK);			
 	}
 	
@@ -122,7 +124,7 @@ public class AccountsController {
 	@DeleteMapping("/{id}") 
 	public ResponseEntity<Object> delete(@PathVariable int id) throws AccountNotFoundException, ProcessingRuntimeException, UserNotFoundException
 		, ProcessingException, UnauthorizedAccessException {
-		SystemUserDTO user = accountsService.getUser(req.getHeader("tokenId"));
+		SystemUserDTO user = accountsService.getUser(req.getHeader(TOKEN));
 		accountsService.delete(id, user);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 	}
