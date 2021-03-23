@@ -38,7 +38,7 @@ public class ControllerExceptionHandler {
 		, NoSuchElementException.class, UserNotFoundException.class})
 	public ResponseEntity<ExceptionResponse> notFoundExceptions(WebRequest web, Exception e) {
 		log.error(e.getMessage());
-		return new ResponseEntity<ExceptionResponse>(new ExceptionResponse(new Date(), 404, e.getClass().getSimpleName()
+		return new ResponseEntity<>(new ExceptionResponse(new Date(), 404, e.getClass().getSimpleName()
 				, e.getMessage()), HttpStatus.NOT_FOUND);
 	}
 	
@@ -51,7 +51,7 @@ public class ControllerExceptionHandler {
 	@ExceptionHandler({ProcessingException.class, ProcessingRuntimeException.class})
 	public ResponseEntity<ExceptionResponse> processingExceptions(WebRequest web, Exception e) {
 		log.error(e.getMessage());
-		return new ResponseEntity<ExceptionResponse>(new ExceptionResponse(new Date(), 500, e.getClass().getSimpleName()
+		return new ResponseEntity<>(new ExceptionResponse(new Date(), 500, e.getClass().getSimpleName()
 				, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
@@ -64,7 +64,7 @@ public class ControllerExceptionHandler {
 	@ExceptionHandler(UnauthorizedAccessException.class)
 	public ResponseEntity<ExceptionResponse> unauthorizedAccessExceptions(WebRequest web, Exception e) {
 		log.error(e.getMessage());
-		return new ResponseEntity<ExceptionResponse>(new ExceptionResponse(new Date(), 401, e.getClass().getSimpleName()
+		return new ResponseEntity<>(new ExceptionResponse(new Date(), 401, e.getClass().getSimpleName()
 				, e.getMessage()), HttpStatus.UNAUTHORIZED);
 	}
 	
@@ -77,7 +77,7 @@ public class ControllerExceptionHandler {
 	@ExceptionHandler(BadValueException.class)
 	public ResponseEntity<ExceptionResponse> badValueExceptions(WebRequest web, Exception e) {
 		log.error(e.getMessage());
-		return new ResponseEntity<ExceptionResponse>(new ExceptionResponse(new Date(), 400, e.getClass().getSimpleName()
+		return new ResponseEntity<>(new ExceptionResponse(new Date(), 400, e.getClass().getSimpleName()
 				, e.getMessage()), HttpStatus.BAD_REQUEST);
 	}
 }

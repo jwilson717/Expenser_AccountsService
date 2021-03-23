@@ -38,7 +38,7 @@ public class AccountTypeController {
 	 */
 	@GetMapping("")
 	public ResponseEntity<List<AccountType>> findAll() {
-		return new ResponseEntity<List<AccountType>>(accountTypeService.findAll(), HttpStatus.OK);
+		return new ResponseEntity<>(accountTypeService.findAll(), HttpStatus.OK);
 	}
 	
 	/**
@@ -49,7 +49,7 @@ public class AccountTypeController {
 	 */
 	@GetMapping("/id/{id}")
 	public ResponseEntity<AccountType> findById(@PathVariable int id) throws TypeNotFoundException {
-		return new ResponseEntity<AccountType>(accountTypeService.findById(id), HttpStatus.OK);
+		return new ResponseEntity<>(accountTypeService.findById(id), HttpStatus.OK);
 	}
 	
 	/**
@@ -61,7 +61,7 @@ public class AccountTypeController {
 	 */
 	@PostMapping("")
 	public ResponseEntity<AccountType> save(@RequestBody AccountType type) throws NoSuchElementException, BadValueException {
-		return new ResponseEntity<AccountType>(accountTypeService.save(type), HttpStatus.CREATED);
+		return new ResponseEntity<>(accountTypeService.save(type), HttpStatus.CREATED);
 	}
 	
 	/**
@@ -74,7 +74,7 @@ public class AccountTypeController {
 	@PutMapping("/{id}")
 	public ResponseEntity<AccountType> update(@PathVariable int id, @RequestBody AccountType type) throws TypeNotFoundException {
 		type.setId(id);
-		return new ResponseEntity<AccountType>(accountTypeService.update(type), HttpStatus.OK);
+		return new ResponseEntity<>(accountTypeService.update(type), HttpStatus.OK);
 	}
 	
 	/**

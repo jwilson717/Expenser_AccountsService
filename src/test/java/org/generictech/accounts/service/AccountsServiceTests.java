@@ -39,7 +39,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @since 1.0
  */
 @ExtendWith(MockitoExtension.class)
-public class AccountsServiceTests {
+class AccountsServiceTests {
 	
 	@Mock
 	private AccountsRepo accountsRepo;
@@ -87,7 +87,7 @@ public class AccountsServiceTests {
 	 * Method to test the findAll method. 
 	 */
 	@Test
-	public void findAllTest() {
+	void findAllTest() {
 		doReturn(accounts).when(accountsRepo).findAll();
 		
 		List<Accounts> returnList = accountsService.findAll();
@@ -100,7 +100,7 @@ public class AccountsServiceTests {
 	 * @throws AccountNotFoundException
 	 */
 	@Test 
-	public void findByUserIdTest() throws AccountNotFoundException {
+	void findByUserIdTest() throws AccountNotFoundException {
 		doReturn(Optional.of(accounts)).when(accountsRepo).findByUserId(user.getId());
 		List<Accounts> resultList = accountsService.findByUserId(user.getId());
 		
@@ -111,7 +111,7 @@ public class AccountsServiceTests {
 	 * Method to test the proper error thrown when no account is found in the repo. 
 	 */
 	@Test 
-	public void findByUserIdAccountNotFoundTest() {
+	void findByUserIdAccountNotFoundTest() {
 		doReturn(Optional.ofNullable(null)).when(accountsRepo).findByUserId(user.getId());
 		
 		assertThrows(AccountNotFoundException.class, () -> {
@@ -126,7 +126,7 @@ public class AccountsServiceTests {
 	 * @throws UnauthorizedAccessException
 	 */
 	@Test
-	public void findByIdTest() throws AccountNotFoundException, UnauthorizedAccessException {
+	void findByIdTest() throws AccountNotFoundException, UnauthorizedAccessException {
 		doReturn(Optional.of(account)).when(accountsRepo).findById(1);
 		Accounts returnAccount = accountsService.findById(1, user);
 		
@@ -137,7 +137,7 @@ public class AccountsServiceTests {
 	 * Method to test the return of an AccountNotFoundException if there is no account found. 
 	 */
 	@Test
-	public void findByIdTestAccountNotFoundTest() {
+	void findByIdTestAccountNotFoundTest() {
 		doReturn(Optional.ofNullable(null)).when(accountsRepo).findById(5);
 		assertThrows(AccountNotFoundException.class, () -> {
 			accountsService.findById(5, user);
@@ -149,7 +149,7 @@ public class AccountsServiceTests {
 	 * to access the account found. 
 	 */
 	@Test 
-	public void findByIdUnauthorizedAccessTest() {
+	void findByIdUnauthorizedAccessTest() {
 		user.setId(3);
 		doReturn(Optional.of(account)).when(accountsRepo).findById(1);
 		assertThrows(UnauthorizedAccessException.class, () -> {
@@ -162,7 +162,7 @@ public class AccountsServiceTests {
 	 * @throws TypeNotFoundException
 	 */
 	@Test
-	public void saveSuccessTest() throws TypeNotFoundException {
+	void saveSuccessTest() throws TypeNotFoundException {
 		doReturn(Optional.of(type)).when(accountTypeRepo).findById(1);
 		doReturn(account).when(accountsRepo).save(any(Accounts.class));
 		Accounts resultAccount = accountsService.save(account);
@@ -176,7 +176,7 @@ public class AccountsServiceTests {
 	 * @throws TypeNotFoundException
 	 */
 	@Test
-	public void saveTypeNotFoundTest() throws TypeNotFoundException {
+	void saveTypeNotFoundTest() throws TypeNotFoundException {
 		account.getType().setId(6);
 		doReturn(Optional.ofNullable(null)).when(accountTypeRepo).findById(6);
 		
@@ -193,7 +193,7 @@ public class AccountsServiceTests {
 	 * @throws UnauthorizedAccessException
 	 */
 	@Test 
-	public void updateSuccessTest() throws NoSuchElementException, AccountNotFoundException, TypeNotFoundException, UnauthorizedAccessException {
+	void updateSuccessTest() throws NoSuchElementException, AccountNotFoundException, TypeNotFoundException, UnauthorizedAccessException {
 		AccountType type2= new AccountType(2, "Test Type 2");
 		Accounts accountData = new Accounts();
 		accountData.setId(1);
@@ -219,7 +219,7 @@ public class AccountsServiceTests {
 	 * @throws UnauthorizedAccessException
 	 */
 	@Test 
-	public void updateSuccessOnlySomeValuesTest() throws NoSuchElementException, AccountNotFoundException, TypeNotFoundException, UnauthorizedAccessException {
+	void updateSuccessOnlySomeValuesTest() throws NoSuchElementException, AccountNotFoundException, TypeNotFoundException, UnauthorizedAccessException {
 		Accounts accountData = new Accounts();
 		accountData.setId(1);
 		accountData.setDescription("Updated Description");
@@ -244,7 +244,7 @@ public class AccountsServiceTests {
 	 * @throws UnauthorizedAccessException
 	 */
 	@Test 
-	public void updateSuccessUnchangeableValuesNotChangedTest() throws NoSuchElementException, AccountNotFoundException, TypeNotFoundException, UnauthorizedAccessException {
+	void updateSuccessUnchangeableValuesNotChangedTest() throws NoSuchElementException, AccountNotFoundException, TypeNotFoundException, UnauthorizedAccessException {
 		Accounts accountData = new Accounts();
 		accountData.setId(1);
 		accountData.setUserId(3);
@@ -271,7 +271,7 @@ public class AccountsServiceTests {
 	 * @throws UnauthorizedAccessException
 	 */
 	@Test 
-	public void updateAccountNotFoundTest() throws NoSuchElementException, AccountNotFoundException, TypeNotFoundException, UnauthorizedAccessException {
+	void updateAccountNotFoundTest() throws NoSuchElementException, AccountNotFoundException, TypeNotFoundException, UnauthorizedAccessException {
 		Accounts accountData = new Accounts();
 		accountData.setId(5);
 		doReturn(Optional.ofNullable(null)).when(accountsRepo).findById(5);
@@ -289,7 +289,7 @@ public class AccountsServiceTests {
 	 * @throws UnauthorizedAccessException
 	 */
 	@Test 
-	public void updateTypeNotFoundTest() throws NoSuchElementException, AccountNotFoundException, TypeNotFoundException, UnauthorizedAccessException {
+	void updateTypeNotFoundTest() throws NoSuchElementException, AccountNotFoundException, TypeNotFoundException, UnauthorizedAccessException {
 		Accounts accountData = new Accounts();
 		accountData.setId(1);
 		accountData.setType(new AccountType());
@@ -310,7 +310,7 @@ public class AccountsServiceTests {
 	 * @throws UnauthorizedAccessException
 	 */
 	@Test 
-	public void updateUnauthorizedAccessTest() throws NoSuchElementException, AccountNotFoundException, TypeNotFoundException, UnauthorizedAccessException {
+	void updateUnauthorizedAccessTest() throws NoSuchElementException, AccountNotFoundException, TypeNotFoundException, UnauthorizedAccessException {
 		Accounts accountData = new Accounts();
 		accountData.setId(1);
 		accountData.setDescription("Updated Description");
@@ -327,7 +327,7 @@ public class AccountsServiceTests {
 	 * @throws UnauthorizedAccessException
 	 */
 	@Test
-	public void deleteSuccessTest() throws AccountNotFoundException, UnauthorizedAccessException {
+	void deleteSuccessTest() throws AccountNotFoundException, UnauthorizedAccessException {
 		doReturn(Optional.of(account)).when(accountsRepo).findById(1);
 		doNothing().when(accountsRepo).delete(account);
 		assertTrue(accountsService.delete(1, user));
@@ -340,7 +340,7 @@ public class AccountsServiceTests {
 	 * @throws UnauthorizedAccessException
 	 */
 	@Test
-	public void deleteAccountNotFoundTest() throws AccountNotFoundException, UnauthorizedAccessException {
+	void deleteAccountNotFoundTest() throws AccountNotFoundException, UnauthorizedAccessException {
 		doReturn(Optional.ofNullable(null)).when(accountsRepo).findById(5);
 		assertThrows(AccountNotFoundException.class, () -> {
 			accountsService.delete(5, user);
@@ -354,7 +354,7 @@ public class AccountsServiceTests {
 	 * @throws UnauthorizedAccessException
 	 */
 	@Test
-	public void deleteUnauthorizedAccessTest() throws AccountNotFoundException, UnauthorizedAccessException {
+	void deleteUnauthorizedAccessTest() throws AccountNotFoundException, UnauthorizedAccessException {
 		doReturn(Optional.of(account)).when(accountsRepo).findById(1);
 		user.setId(3);
 		assertThrows(UnauthorizedAccessException.class, () -> {

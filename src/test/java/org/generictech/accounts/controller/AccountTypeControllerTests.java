@@ -40,7 +40,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(controllers = AccountTypeController.class)
-public class AccountTypeControllerTests {
+class AccountTypeControllerTests {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -68,7 +68,7 @@ public class AccountTypeControllerTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void getAllSuccessTest() throws JsonProcessingException, Exception {
+	void getAllSuccessTest() throws JsonProcessingException, Exception {
 		doReturn(types).when(accountTypeService).findAll();
 		mockMvc.perform(get("/account/type"))
 			.andExpect(status().isOk())
@@ -81,7 +81,7 @@ public class AccountTypeControllerTests {
 	 * @throws Exception
 	 */
 	@Test 
-	public void getByIdSuccessTest() throws JsonProcessingException, Exception {
+	void getByIdSuccessTest() throws JsonProcessingException, Exception {
 		doReturn(type).when(accountTypeService).findById(1);
 		mockMvc.perform(get("/account/type/id/1"))
 			.andExpect(status().isOk())
@@ -95,7 +95,7 @@ public class AccountTypeControllerTests {
 	 * @throws Exception
 	 */
 	@Test 
-	public void getByIdNotFoundTest() throws JsonProcessingException, Exception {
+	void getByIdNotFoundTest() throws JsonProcessingException, Exception {
 		doThrow(TypeNotFoundException.class).when(accountTypeService).findById(4);
 		mockMvc.perform(get("/account/type/id/4"))
 			.andExpect(status().isNotFound())
@@ -108,7 +108,7 @@ public class AccountTypeControllerTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void postAccountTypeSuccessTest() throws JsonProcessingException, Exception {
+	void postAccountTypeSuccessTest() throws JsonProcessingException, Exception {
 		doReturn(type).when(accountTypeService).save(any(AccountType.class));
 		mockMvc.perform(post("/account/type").contentType(MediaType.APPLICATION_JSON)
 				.content(om.writeValueAsString(type))
@@ -123,7 +123,7 @@ public class AccountTypeControllerTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void postAccountTypeNoDataTest() throws JsonProcessingException, Exception {
+	void postAccountTypeNoDataTest() throws JsonProcessingException, Exception {
 		doReturn(type).when(accountTypeService).save(any(AccountType.class));
 		mockMvc.perform(post("/account/type"))
 			.andExpect(status().isBadRequest());
@@ -135,7 +135,7 @@ public class AccountTypeControllerTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void postAccountEmptyTypeTest() throws JsonProcessingException, Exception {
+	void postAccountEmptyTypeTest() throws JsonProcessingException, Exception {
 		AccountType newType = new AccountType();
 		newType.setType("");
 		doThrow(BadValueException.class).when(accountTypeService).save(any(AccountType.class));
@@ -152,7 +152,7 @@ public class AccountTypeControllerTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void putAccountTypeSuccessTest() throws JsonProcessingException, Exception {
+	void putAccountTypeSuccessTest() throws JsonProcessingException, Exception {
 		type.setType("Updated Type");
 		doReturn(type).when(accountTypeService).update(any(AccountType.class));
 		mockMvc.perform(put("/account/type/1").contentType(MediaType.APPLICATION_JSON)
@@ -168,7 +168,7 @@ public class AccountTypeControllerTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void putAccountTypeNotFoundTest() throws JsonProcessingException, Exception {
+	void putAccountTypeNotFoundTest() throws JsonProcessingException, Exception {
 		type.setType("Updated Type");
 		doThrow(TypeNotFoundException.class).when(accountTypeService).update(any(AccountType.class));
 		mockMvc.perform(put("/account/type/4").contentType(MediaType.APPLICATION_JSON)
@@ -183,7 +183,7 @@ public class AccountTypeControllerTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void deleteAccountTypeSuccessTest() throws Exception {
+	void deleteAccountTypeSuccessTest() throws Exception {
 		doReturn(true).when(accountTypeService).delete(1);
 		mockMvc.perform(delete("/account/type/1"))
 			.andExpect(status().isNoContent());
@@ -194,7 +194,7 @@ public class AccountTypeControllerTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void deleteAccountTypeNotFoundTest() throws Exception {
+	void deleteAccountTypeNotFoundTest() throws Exception {
 		doThrow(TypeNotFoundException.class).when(accountTypeService).delete(4);
 		mockMvc.perform(delete("/account/type/4"))
 			.andExpect(status().isNotFound())

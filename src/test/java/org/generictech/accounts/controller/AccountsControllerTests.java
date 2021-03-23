@@ -46,7 +46,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(controllers = AccountsController.class)
-public class AccountsControllerTests {
+class AccountsControllerTests {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -76,7 +76,7 @@ public class AccountsControllerTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void getAccountsSuccessTest() throws Exception {
+	void getAccountsSuccessTest() throws Exception {
 		doReturn(user).when(accountsService).getUser(anyString());
 		doReturn(accounts).when(accountsService).findByUserId(user.getId());
 		mockMvc.perform(get("/account")
@@ -90,7 +90,7 @@ public class AccountsControllerTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void getAccountsNoUserTest() throws Exception {
+	void getAccountsNoUserTest() throws Exception {
 		doThrow(UserNotFoundException.class).when(accountsService).getUser(anyString());
 		mockMvc.perform(get("/account")
 				.header("tokenId", "TestToken"))
@@ -103,7 +103,7 @@ public class AccountsControllerTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void getAccountsNoAccountTest() throws Exception {
+	void getAccountsNoAccountTest() throws Exception {
 		doReturn(user).when(accountsService).getUser(anyString());
 		doThrow(AccountNotFoundException.class).when(accountsService).findByUserId(user.getId());
 		mockMvc.perform(get("/account")
@@ -117,7 +117,7 @@ public class AccountsControllerTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void getAccountSuccessTest() throws Exception {
+	void getAccountSuccessTest() throws Exception {
 		doReturn(user).when(accountsService).getUser(anyString());
 		doReturn(account).when(accountsService).findById(1, user);
 		mockMvc.perform(get("/account/id/1")
@@ -131,7 +131,7 @@ public class AccountsControllerTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void getAccountNoUserTest() throws Exception {
+	void getAccountNoUserTest() throws Exception {
 		doThrow(UserNotFoundException.class).when(accountsService).getUser(anyString());
 		mockMvc.perform(get("/account/id/1")
 				.header("tokenId", "TestToken"))
@@ -144,7 +144,7 @@ public class AccountsControllerTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void getAccountNoAccountTest() throws Exception {
+	void getAccountNoAccountTest() throws Exception {
 		doReturn(user).when(accountsService).getUser(anyString());
 		doThrow(AccountNotFoundException.class).when(accountsService).findById(6, user);
 		mockMvc.perform(get("/account/id/6")
@@ -158,7 +158,7 @@ public class AccountsControllerTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void getAccountBadAccessTest() throws Exception {
+	void getAccountBadAccessTest() throws Exception {
 		doReturn(user).when(accountsService).getUser(anyString());
 		doThrow(UnauthorizedAccessException.class).when(accountsService).findById(5, user);
 		mockMvc.perform(get("/account/id/5")
@@ -172,7 +172,7 @@ public class AccountsControllerTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void postAccountSuccessTest() throws JsonProcessingException, Exception {
+	void postAccountSuccessTest() throws JsonProcessingException, Exception {
 		doReturn(user).when(accountsService).getUser(anyString());
 		doReturn(account).when(accountsService).save(any(Accounts.class));
 		mockMvc.perform(post("/account").contentType(MediaType.APPLICATION_JSON)
@@ -189,7 +189,7 @@ public class AccountsControllerTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void postAccountNoTypeFoundExceptionTest() throws JsonProcessingException, Exception {
+	void postAccountNoTypeFoundExceptionTest() throws JsonProcessingException, Exception {
 		doReturn(user).when(accountsService).getUser(anyString());
 		doThrow(TypeNotFoundException.class).when(accountsService).save(any(Accounts.class));
 		mockMvc.perform(post("/account").contentType(MediaType.APPLICATION_JSON)
@@ -207,7 +207,7 @@ public class AccountsControllerTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void postAccountUserNotFoundExceptionTest() throws JsonProcessingException, Exception {
+	void postAccountUserNotFoundExceptionTest() throws JsonProcessingException, Exception {
 		doThrow(UserNotFoundException.class).when(accountsService).getUser(anyString());
 		mockMvc.perform(post("/account").contentType(MediaType.APPLICATION_JSON)
 				.content(om.writeValueAsString(account))
@@ -224,7 +224,7 @@ public class AccountsControllerTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void putAccountSuccessTest() throws JsonProcessingException, Exception {
+	void putAccountSuccessTest() throws JsonProcessingException, Exception {
 		doReturn(user).when(accountsService).getUser(anyString());
 		Accounts altered = new Accounts(account.getId(), account.getType(), "Updated description", 102.00, account.getUserId());
 		doReturn(altered).when(accountsService).update(any(Accounts.class), any(SystemUserDTO.class));
@@ -243,7 +243,7 @@ public class AccountsControllerTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void putAccountNotFoundExceptionTest() throws JsonProcessingException, Exception {
+	void putAccountNotFoundExceptionTest() throws JsonProcessingException, Exception {
 		doReturn(user).when(accountsService).getUser(anyString());
 		Accounts altered = new Accounts(account.getId(), account.getType(), "Updated description", 100.00, account.getUserId());
 		doThrow(AccountNotFoundException.class).when(accountsService).update(any(Accounts.class), any(SystemUserDTO.class));
@@ -262,7 +262,7 @@ public class AccountsControllerTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void putAccountTypeNotFoundExceptionTest() throws JsonProcessingException, Exception {
+	void putAccountTypeNotFoundExceptionTest() throws JsonProcessingException, Exception {
 		doReturn(user).when(accountsService).getUser(anyString());
 		Accounts altered = new Accounts(account.getId(), new AccountType(), "Updated description", 1000.00, account.getUserId());
 		doThrow(TypeNotFoundException.class).when(accountsService).update(any(Accounts.class), any(SystemUserDTO.class));
@@ -281,7 +281,7 @@ public class AccountsControllerTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void putAccountUnauthorizedExceptionTest() throws JsonProcessingException, Exception {
+	void putAccountUnauthorizedExceptionTest() throws JsonProcessingException, Exception {
 		doReturn(user).when(accountsService).getUser(anyString());
 		Accounts altered = new Accounts(account.getId(), new AccountType(), "Updated description", 100.00, account.getUserId());
 		doThrow(UnauthorizedAccessException.class).when(accountsService).update(any(Accounts.class), any(SystemUserDTO.class));
@@ -298,7 +298,7 @@ public class AccountsControllerTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void deleteAccountSuccessTest() throws Exception {
+	void deleteAccountSuccessTest() throws Exception {
 		doReturn(user).when(accountsService).getUser(anyString());
 		doReturn(true).when(accountsService).delete(1, user);
 		mockMvc.perform(delete("/account/1").header("tokenId", "testToken"))
@@ -310,7 +310,7 @@ public class AccountsControllerTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void deleteAccountNotFoundTest() throws Exception {
+	void deleteAccountNotFoundTest() throws Exception {
 		doReturn(user).when(accountsService).getUser(anyString());
 		doThrow(AccountNotFoundException.class).when(accountsService).delete(7, user);
 		mockMvc.perform(delete("/account/7").header("tokenId", "testToken"))
@@ -324,7 +324,7 @@ public class AccountsControllerTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void deleteAccountUnauthorizedAccessTest() throws Exception {
+	void deleteAccountUnauthorizedAccessTest() throws Exception {
 		doReturn(user).when(accountsService).getUser(anyString());
 		doThrow(UnauthorizedAccessException.class).when(accountsService).delete(6, user);
 		mockMvc.perform(delete("/account/6").header("tokenId", "testToken"))

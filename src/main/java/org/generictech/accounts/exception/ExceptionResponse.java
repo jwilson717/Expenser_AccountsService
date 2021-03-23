@@ -18,5 +18,6 @@ public class ExceptionResponse {
 
 	private Date timestamp;
 	private int status;
-	private String error, message;
+	private String error;
+	private String message;
 }

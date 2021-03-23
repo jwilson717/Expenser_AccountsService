@@ -31,7 +31,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
  * @since 1.0
  */
 @ExtendWith(MockitoExtension.class)
-public class AccountTypeServiceTests {
+class AccountTypeServiceTests {
 
 	@Mock
 	private AccountTypeRepo accountTypeRepo;
@@ -54,7 +54,7 @@ public class AccountTypeServiceTests {
 	 * Method to test the proper return of the findAll method. 
 	 */
 	@Test
-	public void findAllSuccessTest() {
+	void findAllSuccessTest() {
 		doReturn(types).when(accountTypeRepo).findAll();
 		
 		assertEquals(types, accountTypeService.findAll());
@@ -65,7 +65,7 @@ public class AccountTypeServiceTests {
 	 * @throws TypeNotFoundException
 	 */
 	@Test 
-	public void findByIdSuccessTest() throws TypeNotFoundException {
+	void findByIdSuccessTest() throws TypeNotFoundException {
 		doReturn(Optional.of(type)).when(accountTypeRepo).findById(1);
 		
 		assertEquals(type, accountTypeService.findById(1));
@@ -77,7 +77,7 @@ public class AccountTypeServiceTests {
 	 * @throws TypeNotFoundException
 	 */
 	@Test 
-	public void findByIdNotFoundTest() throws TypeNotFoundException {
+	void findByIdNotFoundTest() throws TypeNotFoundException {
 		doReturn(Optional.ofNullable(null)).when(accountTypeRepo).findById(4);
 		
 		assertThrows(TypeNotFoundException.class, ()->{
@@ -91,7 +91,7 @@ public class AccountTypeServiceTests {
 	 * @throws BadValueException 
 	 */
 	@Test 
-	public void saveSuccessTest() throws NoSuchElementException, BadValueException {
+	void saveSuccessTest() throws NoSuchElementException, BadValueException {
 		doReturn(type).when(accountTypeRepo).save(any(AccountType.class));
 		
 		assertEquals(type, accountTypeService.save(type));
@@ -103,7 +103,7 @@ public class AccountTypeServiceTests {
 	 * @throws NoSuchElementException 
 	 */
 	@Test 
-	public void saveFailedTest() throws NoSuchElementException {
+	void saveFailedTest() throws NoSuchElementException {
 		assertThrows(BadValueException.class, ()->{
 			accountTypeService.save(new AccountType());
 		});
@@ -115,7 +115,7 @@ public class AccountTypeServiceTests {
 	 * @throws ProcessingException
 	 */
 	@Test 
-	public void saveEmptyFailedTest() throws NoSuchElementException {
+	void saveEmptyFailedTest() throws NoSuchElementException {
 		AccountType newType = new AccountType();
 		newType.setType("");
 		assertThrows(BadValueException.class, ()->{
@@ -128,7 +128,7 @@ public class AccountTypeServiceTests {
 	 * @throws TypeNotFoundException
 	 */
 	@Test
-	public void updateSuccessTest() throws TypeNotFoundException {
+	void updateSuccessTest() throws TypeNotFoundException {
 		AccountType typeData = new AccountType();
 		typeData.setId(1);
 		typeData.setType("Updated Test Type");
@@ -144,7 +144,7 @@ public class AccountTypeServiceTests {
 	 * type to update  is not found in the repo. 
 	 */
 	@Test
-	public void updateNotFoundTest() {
+	void updateNotFoundTest() {
 		AccountType typeData = new AccountType();
 		typeData.setId(4);
 		typeData.setType("Updated Test Type");
@@ -160,7 +160,7 @@ public class AccountTypeServiceTests {
 	 * @throws TypeNotFoundException
 	 */
 	@Test
-	public void deleteSuccessTest() throws NoSuchElementException, TypeNotFoundException {
+	void deleteSuccessTest() throws NoSuchElementException, TypeNotFoundException {
 		doReturn(Optional.of(type)).when(accountTypeRepo).findById(1);
 		doNothing().when(accountTypeRepo).delete(type);
 		assertTrue(accountTypeService.delete(1));
@@ -171,7 +171,7 @@ public class AccountTypeServiceTests {
 	 * type does not exist in the repo. 
 	 */
 	@Test 
-	public void deleteNotFoundTest() {
+	void deleteNotFoundTest() {
 		doReturn(Optional.ofNullable(null)).when(accountTypeRepo).findById(4);
 		assertThrows(TypeNotFoundException.class, ()->{
 			accountTypeService.delete(4);

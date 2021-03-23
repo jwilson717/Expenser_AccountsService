@@ -52,7 +52,7 @@ public class AccountsController {
 	@GetMapping("")
 	public ResponseEntity<List<Accounts>> getAll() throws ProcessingRuntimeException, UserNotFoundException, ProcessingException, AccountNotFoundException {
 		SystemUserDTO user = accountsService.getUser(req.getHeader("tokenId"));
-		return new ResponseEntity<List<Accounts>>(accountsService.findByUserId(user.getId()), HttpStatus.OK);
+		return new ResponseEntity<>(accountsService.findByUserId(user.getId()), HttpStatus.OK);
 	}
 	
 	/**
@@ -68,20 +68,8 @@ public class AccountsController {
 	@GetMapping("/id/{id}")
 	public ResponseEntity<Accounts> getById(@PathVariable int id) throws AccountNotFoundException, ProcessingRuntimeException, UserNotFoundException, ProcessingException, UnauthorizedAccessException {
 		SystemUserDTO user = accountsService.getUser(req.getHeader("tokenId"));
-		return new ResponseEntity<Accounts>(accountsService.findById(id, user), HttpStatus.OK);			
+		return new ResponseEntity<>(accountsService.findById(id, user), HttpStatus.OK);			
 	}
-	
-	/**
-	 * Method to handle GET request to /account/user/{userid}
-	 * @param userId
-	 * @return ResponseEntity<List<Accounts>>
-	 * @throws AccountNotFoundException 
-	 */
-//	This method is commented out because the same functionality is accomplished with the no PathVariable GET request above 
-//	@GetMapping("/user/{userId}")
-//	public ResponseEntity<List<Accounts>> getByuserId(@PathVariable int userId) throws AccountNotFoundException {
-//		return new ResponseEntity<List<Accounts>>(accountsService.findByUserId(userId), HttpStatus.OK);			
-//	}
 	
 	/**
 	 * Method to handle POST request to /account
@@ -118,7 +106,7 @@ public class AccountsController {
 		, TypeNotFoundException, ProcessingRuntimeException, UserNotFoundException, ProcessingException, UnauthorizedAccessException {
 		accountData.setId(id);
 		SystemUserDTO user = accountsService.getUser(req.getHeader("tokenId"));
-		return new ResponseEntity<Accounts>(accountsService.update(accountData, user), HttpStatus.OK);			
+		return new ResponseEntity<>(accountsService.update(accountData, user), HttpStatus.OK);			
 	}
 	
 	/**
