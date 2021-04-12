@@ -14,7 +14,8 @@ pipeline {
         }
         stage('Docker image') {
         	steps {
-        		sh "docker build . -t expenser-accountsservice-image"
+        		sh "docker build . -t jwilson717/test:expenser-accountsservice-image"
+        		sh "docker push jwilson717/test:expenser-accountsservice-image"
         	}
         }
     }
